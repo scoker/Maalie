@@ -1,8 +1,9 @@
 package pl.kandrzejczak.maalie
 
-import pl.kandrzejczak.maalie.repository.{AlieItemInMemoryRepository, ItemEntryService, ItemEntryServiceImpl}
+import pl.kandrzejczak.maalie.repository.ItemEntryService
 import spray.httpx.SprayJsonSupport._
 import AlieItemJsonImplicits._
+import com.google.inject.Inject
 import spray.routing._
 import spray.routing.directives.ExecutionDirectives._
 import spray.routing.directives.MarshallingDirectives.as
@@ -14,11 +15,9 @@ import spray.routing.RouteConcatenation._
 
 import scala.concurrent.ExecutionContext.Implicits
 
-class AlieItemsRoutes {
+class AlieItemsRoutes @Inject() (itemService: ItemEntryService) {
 
   private implicit val detachEc = Implicits.global
-  //todo hardcoded
-  val itemEntryService: ItemEntryService = new ItemEntryServiceImpl(new AlieItemInMemoryRepository)
 
   def routes: Route = {
     pathPrefix("items") {
@@ -27,7 +26,7 @@ class AlieItemsRoutes {
           detach() {
             entity(as[AlieItem]){ item =>
               complete {
-                itemEntryService.addItem(item)
+                itemService.addItem(item)
             }
            }
           }
@@ -39,7 +38,7 @@ class AlieItemsRoutes {
   private def getItems(): Route = {
     get {
       complete {
-        itemEntryService.getItemEntries
+        itemService.getItemEntries
       }
     }
   }
