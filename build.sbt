@@ -21,6 +21,7 @@ libraryDependencies ++= {
     "org.scalaz"          %%  "scalaz-core"   % "7.1.0",
     "org.scalatest"       %%  "scalatest"     % "2.2.6" % "test",
     "org.json4s"          %%  "json4s-native" % Json4sVersion,
-    "org.json4s"          %%  "json4s-ext"    % Json4sVersion
+    "org.json4s"          %%  "json4s-ext"    % Json4sVersion,
+    "com.google.inject"   %   "guice"         % "4.0"
   )
 }

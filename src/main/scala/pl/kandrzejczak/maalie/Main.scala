@@ -10,7 +10,7 @@ import scala.concurrent.duration._
 
 object Main extends App {
   implicit val system = ActorSystem("Maalie")
-  val service = system.actorOf(Props[MyRoutesServiceActor], "sj-rest-service")
+  val service = system.actorOf(Props[RoutingActor], "sj-rest-service")
   implicit val timeout = Timeout(5.seconds)
   IO(Http) ? Http.Bind(service, interface = "localhost", port = 8080)
 }
